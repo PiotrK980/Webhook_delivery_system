@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - webhook_data:/data
+    environment:
+      DB_PATH: /data/webhooks.db
+      WORKER_CONCURRENCY: "5"
+    restart: unless-stopped
+
+  httpbin:
+    image: kennethreitz/httpbin
+    ports:
+      - "8080:80"
+
+volumes:
+  webhook_data:
